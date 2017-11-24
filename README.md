@@ -21,7 +21,7 @@ The public trackers are retrieved from a dynamically list ([ngosang](https://git
 >
 > Add public trackers to the all the Torrents found with $anyword in the name (case insensitive)
 
->```./addtracker \*```
+>```./addtracker .```
 >
 > Add public trackers to all the Torrents found
 
