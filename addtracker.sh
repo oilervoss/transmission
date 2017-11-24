@@ -7,7 +7,7 @@ LIVE_TRACKERS_LIST_CMD='curl -fs --url https://raw.githubusercontent.com/ngosang
 TRANSMISSION_REMOTE='/usr/bin/transmission-remote'
 
 PARAMETER="$1"
-[ "$PARAMETER" = "*" ] || [ "$PARAMETER" = "." ] && PARAMETER=" "
+[ "$PARAMETER" = "." ] && PARAMETER=" "
 TORRENTS=$($TRANSMISSION_REMOTE -l 2>/dev/null)
 if [ $? -ne 0 ]; then
     echo -e "\n\e[0;91;1mFail on transmission. Aborting.\n\e[0m"
