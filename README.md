@@ -12,16 +12,16 @@ The public trackers are retrieved from a dynamically list ([ngosang](https://git
 >
 > Show current Torrents
 
-> ```./addtracker *$somenumber*```
+> ```./addtracker $somenumber```
 >
 > Add public trackers to the Torrent of number *$somenumber*
 
 
-> ```./addtracker *$anyword*```
+> ```./addtracker $anyword```
 >
 > Add public trackers to the all the Torrents found with *$anyword* in the name (case insensitive)
 
->```./addtracker **.**```
+>```./addtracker .```
 >
 > Add public trackers to all the Torrents found
 
