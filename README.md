@@ -43,6 +43,6 @@ The public trackers are retrieved from a dynamically list ([ngosang](https://git
 >
 > ```transmission-remote -l | grep -i $name | sed -n 's/ *\([0-9]\+\).*/\1/p'```
 
-> Blocklist
+> Blocklists
 >
-> ```http://john.bitsurge.net/public/biglist.p2p.gz```
+> https://gist.github.com/johntyree/3331662
