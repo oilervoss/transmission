@@ -42,3 +42,7 @@ The public trackers are retrieved from a dynamically list ([ngosang](https://git
 > Show only Torrent number of the first file with the $name:
 >
 > ```transmission-remote -l | grep -i $name | sed -n 's/ *\([0-9]\+\).*/\1/p'```
+
+> Blocklist
+>
+> ```http://john.bitsurge.net/public/biglist.p2p.gz```
