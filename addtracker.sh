@@ -1,9 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+# https://github.com/oilervoss/transmission
 
 # Below is a command that will get a list of trackers with one tracker per line
 # command can be 'cat /some/path/trackers.txt' for a static list
-
 LIVE_TRACKERS_LIST_CMD='curl -fs --url https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best_ip.txt' 
+
 TRANSMISSION_REMOTE='/usr/bin/transmission-remote'
 
 TORRENTS=$($TRANSMISSION_REMOTE -l 2>/dev/null)
