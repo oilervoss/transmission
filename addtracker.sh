@@ -1,11 +1,12 @@
-#!/bin/bash
+#!/bin/ash
 # https://github.com/oilervoss/transmission
 
 # Below is a command that will get a list of trackers with one tracker per line
 # command can be 'cat /some/path/trackers.txt' for a static list
-LIVE_TRACKERS_LIST_CMD='curl -fs --url https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best_ip.txt' 
 
-TRANSMISSION_REMOTE='/usr/bin/transmission-remote'
+LIVE_TRACKERS_LIST_CMD='curl -fs --url https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best_ip.txt'
+
+TRANSMISSION_REMOTE='/usr/bin/transmission-remote -n kabum:Hr7qeB6Fkscdn2zbzUmf'
 
 TORRENTS=$($TRANSMISSION_REMOTE -l 2>/dev/null)
 if [ $? -ne 0 ]; then
@@ -21,14 +22,14 @@ if [ $# -eq 0 ]; then
     echo -e "addtracker .\t\t- add trackers to all torrents"
     echo -e "Names are case insensitive "
     echo -e "\n\e[0;32;1mCurrent torrents:\e[0;32m"
-    echo "$TORRENTS" | sed -nr 's:(^.{4}).{64}:\1:p'
+    echo "$TORRENTS" | sed -nr 's:^\s+(\d+\s).{64}:\1:p'
     echo -e "\n\e[0m"
     exit 1
 fi
 
 TRACKER_LIST=`$LIVE_TRACKERS_LIST_CMD`
 if [ $? -ne 0 ] || [ -z "$TRACKER_LIST" ]; then
-	TRACKER_LIST="udp://tracker.skyts.net:6969/announce
+        TRACKER_LIST="udp://tracker.skyts.net:6969/announce
 udp://tracker.safe.moe:6969/announce
 udp://tracker.piratepublic.com:1337/announce
 udp://tracker.pirateparty.gr:6969/announce
@@ -58,20 +59,20 @@ while [ $# -ne 0 ]; do
 
   if [ ! -z "${PARAMETER//[0-9]}" ] ; then
     PARAMETER=$(echo "$TORRENTS" | \
-      sed -nr '1d;/^Sum:/d;s:(^.{4}).{64}:\1:p' | \
+            sed -nr '1d;/^Sum:/d;s:^\s+(\d+\s).{64}:\1:p' | \
       grep -i "$PARAMETER" | \
-      sed -nr 's:(^.{4}).*:\1:;s: ::gp')
+      sed -nr 's:^(\d+)\s.*:\1:p')
 
     if [ ! -z "$PARAMETER" ] && [ -z ${PARAMETER//[0-9]} ] ; then
       NUMBERCHECK=1
       echo -e "\n\e[0;32;1mI found the following torrent:\e[0;32m"
-      echo "$TORRENTS" | sed -nr 's:(^.{4}).{64}:\1:p' | grep -i "$1"
+      echo "$TORRENTS" | sed -nr 's:^\s+(\d+\s).{64}:\1:p' | grep -i "$1"
     else
       NUMBERCHECK=0
     fi
   else
     NUMBERCHECK=$(echo "$TORRENTS" | \
-      sed -nr '1d;/^Sum:/d;s: :0:g;s:^(....).*:\1:p' | \
+      sed -nr '1d;/^Sum:/d;s:^(\s+\d+)\s.*:\1:p;s: :0:gp' | \
       grep $(echo 0000$PARAMETER | sed -nr 's:.*([0-9]{4}$):\1:p'))
 
   fi
@@ -90,7 +91,7 @@ while [ $# -ne 0 ]; do
     do
       if [ ! -z "$TRACKER" ]; then
         echo -ne "\e[0;36;1mAdding $TRACKER\e[0;36m"
-        $TRANSMISSION_REMOTE -t $TORRENT -td $TRACKER 1>/dev/null 2>&1 
+        $TRANSMISSION_REMOTE -t $TORRENT -td $TRACKER 1>/dev/null 2>&1
         if [ $? -eq 0 ]; then
           echo -e " -> \e[32mSuccess! "
         else
@@ -99,8 +100,8 @@ while [ $# -ne 0 ]; do
       fi
     done
   done
-  
-  shift 
+
+  shift
 done
 
 echo -e "\e[0m"
